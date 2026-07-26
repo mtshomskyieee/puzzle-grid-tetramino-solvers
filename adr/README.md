@@ -17,5 +17,4 @@ Status of all records above: **Accepted** (2026-07-26).
 
 ## ADRs 0001 through 0007 - Foundaational ADRs
 - 0001 through 0007 ADRs are initially retroactive documentation, but should keep the current patterns on track: and set expectations for AI during future interactions
-##3
 - The current game engine is on it's 3rd rewrite, which implies a trend.  It's been stable for the current use-cases. 
