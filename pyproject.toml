@@ -1,0 +1,55 @@
+[project]
+name = "puzzlegrid-study"
+version = "0.1.0"
+description = "A step-by-step study: a puzzle-grid (Tetris-style) game engine and four AI solvers (VAE, GAN, transformer, agents)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.5.0",
+    "requests>=2.31.0",
+    "tensorflow>=2.15.0",
+    "numpy>=1.24.0",
+    "langchain>=0.3.0",
+    "langgraph>=0.2.0",
+    "langchain-openai>=0.2.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+# The whole workflow is uv-driven. Extra args pass through, e.g. `uv run play-vae --max-moves 50`.
+engine = "cli:engine"                        # start the API server on :8000
+generate-data = "cli:generate_data"          # step 1 (auto-starts the engine)
+validate-data = "cli:validate_data"          # (auto-starts the engine)
+analyze-data = "cli:analyze_data"
+train-vae = "cli:train_vae"                  # step 2 (v2, canonical)
+train-vae1 = "cli:train_vae1"                # step 2 (v1)
+train-gan = "cli:train_gan"                  # step 3
+train-transformer = "cli:train_transformer"  # step 4 (scorer)
+train-policy = "cli:train_policy"            # step 4 (distilled student)
+distill = "cli:distill"                      # step 4 (scorer self-play -> policy data)
+play-vae = "cli:play_vae"                    # step 2 (auto-starts the engine)
+play-vae1 = "cli:play_vae1"                  # step 2 (auto-starts the engine)
+play-gan = "cli:play_gan"                    # step 3 (in-process)
+play-transformer = "cli:play_transformer"    # step 4 (in-process; best player)
+play-policy = "cli:play_policy"              # step 4 (in-process)
+play-agents = "cli:play_agents"              # step 5 (auto-starts the engine)
+# `uv run test` -> runs pytest over the tests/ directory
+test = "tools:main"
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/engine/puzzlegrid", "src/tools", "src/cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Put the split module dirs on sys.path so tests can import the engine + solvers directly.
+pythonpath = ["src/engine", "src/common", "src/solvers", "src/replay"]
+addopts = "-q"

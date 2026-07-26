@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "board_height": 20,
+  "board_width": 10,
+  "noise_dim": 32,
+  "rotation_loss_weight": 1.0,
+  "position_loss_weight": 10.0,
+  "line_clear_reward_weight": 6.0,
+  "generator_path": "./models/gan_clean_v2/tetris_gan_generator.keras",
+  "discriminator_path": "./models/gan_clean_v2/tetris_gan_discriminator.keras",
+  "use_post_board": true
+}

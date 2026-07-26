@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "latent_dim": 64,
+  "beta": 0.05,
+  "piece_loss_weight": 1.0,
+  "rotation_loss_weight": 1.0,
+  "position_loss_weight": 10.0,
+  "line_clear_weight": 2.0,
+  "board_encoder_path": "./models/vae_clean/tetris_vae_v2_board_encoder.keras",
+  "decoder_path": "./models/vae_clean/tetris_vae_v2_decoder.keras"
+}

@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# uv / venv
+.venv/
+
+# Secrets — never commit real keys
+.env
+
+# Generated at runtime
+data/policy_data/
+models/*_trained/
+/tmp/*.log
+
+# Local study write-ups — not published with this package
+docs/
