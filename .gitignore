@@ -16,4 +16,6 @@ models/*_trained/
 /tmp/*.log
 
 # Local study write-ups — not published with this package
-docs/
+# (docs/README.md is published as the docs entrypoint)
+docs/*
+!docs/README.md
