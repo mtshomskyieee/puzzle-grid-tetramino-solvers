@@ -9,6 +9,7 @@ simulated line clears. Supports the live API or in-process play, and
 """
 
 import argparse
+import time
 from typing import List, Optional, Tuple
 
 import numpy as np
@@ -99,7 +100,7 @@ class TransformerScorerPlayer:
             return candidates[0]
         return candidates[int(np.argmax(score))]
 
-    def play(self, max_moves: int = 400) -> dict:
+    def play(self, max_moves: int = 400, delay: float = 0.0) -> dict:
         for _ in range(max_moves):
             st = self.get_state()
             if st.get("status") != "playing":
@@ -113,6 +114,8 @@ class TransformerScorerPlayer:
                 break
             if not self.place(*choice):
                 break
+            if delay > 0:
+                time.sleep(delay)
         return self.get_state()
 
 
@@ -125,6 +128,7 @@ def main():
     ap.add_argument("--piece-sequence", type=str, nargs="*", default=None)
     ap.add_argument("--line-clear-bonus", type=float, default=0.0)
     ap.add_argument("--max-moves", type=int, default=400)
+    ap.add_argument("--delay", type=float, default=0.1, help="Seconds between moves (browser pace)")
     args = ap.parse_args()
 
     player = TransformerScorerPlayer(
@@ -132,7 +136,7 @@ def main():
         line_clear_bonus=args.line_clear_bonus)
     player.create_game(allowed_pieces=args.allowed_pieces,
                        piece_sequence=args.piece_sequence)
-    final = player.play(max_moves=args.max_moves)
+    final = player.play(max_moves=args.max_moves, delay=args.delay)
     print(f"Lines cleared: {final.get('lines_cleared', 0)}")
     print(f"Pieces placed: {final.get('pieces_placed', 0)}")
     print(f"Score: {final.get('score', 0)}")

@@ -149,11 +149,11 @@ def play_vae1():
 
 
 def play_gan():
-    _run_script("src/replay/replay_gan.py", ["--inprocess"])
+    _with_server("src/replay/replay_gan.py")
 
 
 def play_transformer():
-    _run_script("src/replay/replay_transformers.py", ["--inprocess"])
+    _with_server("src/replay/replay_transformers.py")
 
 
 def play_policy():

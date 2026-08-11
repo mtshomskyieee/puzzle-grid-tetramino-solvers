@@ -30,6 +30,7 @@ data/     training_data_clean/   heuristic self-play games (ships with the repo)
 models/   vae_clean/  gan_clean_v2/  transformer_scorer/  transformer_policy_soft/
           tetris_vae_v1_*            pretrained models (ship so you can replay immediately)
 docs/     design write-ups, one per stage (see docs/README.md)
+notebooks/  step-through IPython labs (VAE / GAN / transformer) — see notebooks/README.md
 src/
   _env.sh          # source this before running anything (sets PYTHONPATH + REPO_ROOT)
   engine/          # step 0: the puzzlegrid package + main.py (the API server)
@@ -74,8 +75,8 @@ cp .env.example .env    # then edit .env and set OPENAI_API_KEY
 | `uv run validate-data` / `uv run analyze-data` | check / summarize the data | auto / — |
 | `uv run train-vae` · `train-gan` · `train-transformer` | train a solver (also `train-vae1`, `train-policy`, `distill`) | — |
 | `uv run play-vae` | step 2 — VAE v2 plays | auto |
-| `uv run play-gan` | step 3 — GAN plays (in-process) | — |
-| `uv run play-transformer` | step 4 — the scorer plays (best player, in-process) | — |
+| `uv run play-gan` | step 3 — GAN plays | auto |
+| `uv run play-transformer` | step 4 — the scorer plays (best player) | auto |
 | `uv run play-agents` | step 5 — LangGraph agent plays | auto |
 
 Extra args pass straight through, e.g. `uv run play-vae --max-moves 50` or
@@ -88,6 +89,20 @@ invocations, `source src/_env.sh` first to set `PYTHONPATH`.
 The pytest suite (`uv run test`, 18 tests) is fast and offline — it lives in `tests/`, one
 file per step (`test_engine.py`, `test_heuristic_data.py`, `test_vae_solver.py`,
 `test_gan_solver.py`, `test_transformer_solver.py`, `test_agents_solver.py`).
+
+### Research notebooks
+
+IPython labs for presenting and probing each learned solver (CNN / latent
+activations, GAN feature-based selection, transformer attention):
+
+```bash
+uv sync --group notebooks          # matplotlib + ipykernel + ipywidgets
+# then open notebooks/01_vae_training_and_solver.ipynb  (kernel = this .venv)
+#         notebooks/02_gan_training_and_solver.ipynb
+#         notebooks/03_transformer_training_and_solver.ipynb
+```
+
+See [`notebooks/README.md`](notebooks/README.md).
 
 ---
 
@@ -164,7 +179,7 @@ model an **explicit line-clearing objective** the VAE lacked. It clears a few li
 # train (optional — a pretrained model ships in models/gan_clean_v2/)
 uv run train-gan                   # -> models/gan_trained/
 
-# play (in-process; no server needed)
+# play (auto-starts the engine — open http://localhost:8000/ to watch)
 uv run play-gan
 ```
 
@@ -184,7 +199,7 @@ This is the model the agents step relies on.
 # train the scorer (optional — ships in models/transformer_scorer/)
 uv run train-transformer           # -> models/transformer_scorer_trained/
 
-# play (in-process; no server needed)
+# play (auto-starts the engine — open http://localhost:8000/ to watch)
 uv run play-transformer --max-moves 200
 ```
 

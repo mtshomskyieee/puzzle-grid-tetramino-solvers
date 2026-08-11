@@ -21,11 +21,11 @@ agent keypress navigation); others benefit from in-process speed.
    differ by navigating with incremental `/move` instead of `/place`.
 
 3. **Transport:**
-   - HTTP for VAE clients and agents (`replay_vae*.py`, `replay_using_agents.py`).
-   - In-process (`--inprocess` / CLI default) for GAN and transformer clients
-     where supported (`replay_gan.py`, `replay_transformers.py`,
-     `replay_transformer_policy.py`), typically via `common.gan_friendly_game`
-     or direct `PuzzleGridGame`.
+   - HTTP for VAE, GAN, transformer scorer, and agents (`replay_vae*.py`,
+     `replay_gan.py`, `replay_transformers.py`, `replay_using_agents.py`) via
+     `uv run play-*` so the browser view works.
+   - In-process (`--inprocess`) remains available on GAN/transformer scripts for
+     speed; `play-policy` still defaults to in-process.
 
 4. **CLI auto-starts** the API when a play command needs the server, then stops
    it afterward — no separate terminal required for the guided path.

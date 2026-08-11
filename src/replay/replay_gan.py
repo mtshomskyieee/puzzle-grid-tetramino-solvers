@@ -323,6 +323,7 @@ def main():
     parser.add_argument("--line-clear-bonus", type=float, default=1.5)
     parser.add_argument("--mode", choices=["fast", "search"], default="search")
     parser.add_argument("--max-moves", type=int, default=200)
+    parser.add_argument("--delay", type=float, default=0.1, help="Seconds between moves (browser pace)")
     parser.add_argument("--piece-sequence", type=str, nargs="*", default=None)
     args = parser.parse_args()
 
@@ -337,7 +338,7 @@ def main():
     player.create_game(piece_sequence=args.piece_sequence)
     print(f"Game {player.game_id} started (mode={args.mode})")
 
-    final = player.play_game(max_moves=args.max_moves, mode=args.mode)
+    final = player.play_game(max_moves=args.max_moves, mode=args.mode, delay=args.delay)
     print(f"Final score: {final.get('score', 0)}")
     print(f"Lines cleared: {final.get('lines_cleared', 0)}")
     print(f"Status: {final.get('status')}")
